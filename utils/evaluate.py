@@ -84,6 +84,8 @@ def get_performance(user_pos_test, r, auc, Ks):
 
 
 def test_one_user(x):
+    ##변경사항
+    rating, u, test_user_set, train_user_set, n_items = x
     # user u's ratings for user u
     rating = x[0]
     # uid
@@ -173,8 +175,9 @@ def test(model, user_dict, n_params, mode='test'):
             item_batch = torch.LongTensor(np.array(range(0, n_items))).view(n_items, -1).to(device)
             i_g_embddings = item_gcn_emb[item_batch]
             rate_batch = model.rating(u_g_embeddings, i_g_embddings).detach().cpu()
-
-        user_batch_rating_uid = zip(rate_batch, user_list_batch)
+## 변경사항
+        user_batch_rating_uid = [(rate,uid,test_user_set,train_user_set,n_items)
+                                 for rate, uid in zip(rate_batch, user_list_batch)]
         batch_result = pool.map(test_one_user, user_batch_rating_uid)
         count += len(batch_result)
 
