@@ -47,4 +47,4 @@ def parse_args():
         "--out_dir", type=str, default="./weights/yelp2018/", help="output directory for model"
     )
 
-    return parser.parse_args()
+    return parser.parse_args(args=[])
